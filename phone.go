@@ -241,6 +241,7 @@ type V2PhoneResponse struct {
 		Carrier            string      `json:"carrier"`
 		CountryCallingCode string      `json:"country_calling_code"`
 		DoNotCall          bool        `json:"do_not_call"`
+		IsConnected        bool        `json:"is_connected"`
 		Extension          interface{} `json:"extension"`
 		ID                 struct {
 			Durability string `json:"durability"`
