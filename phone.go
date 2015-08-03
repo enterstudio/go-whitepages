@@ -5,6 +5,15 @@ import (
 	"time"
 )
 
+type Result struct {
+	V2PhoneResponse
+	Location
+	BelongsTo
+	AssociatedLocations
+	BestLocation
+	Reputation
+}
+
 type ID struct {
 	Key        string `json:"key"`
 	URL        string `json:"url"`
@@ -24,6 +33,7 @@ type V2PhoneResponse struct {
 	DoNotCall          bool   `json:"do_not_call"`
 	IsPrepaid          bool   `json:"is_prepaid"`
 	IsConnected        bool   `json:"is_connected"`
+	Results            []Result
 }
 
 type Name struct {
@@ -55,7 +65,7 @@ type Location struct {
 			Month int `json:"month"`
 			Day   int `json:"day"`
 		} `json:"stop"`
-	} `json:"valide_for"`
+	} `json:"valid_for"`
 	Latlong                 LatLong
 	IsDeliverable           bool   `json:"is_deliverable"`
 	StandardAddressLine1    string `json:"standard_address_line1"`
@@ -66,7 +76,7 @@ type Location struct {
 	ContactCreationDate     int    `json:"contact_creation_date"`
 }
 
-type BelongsTo []struct {
+type BelongsTo struct {
 	ID       ID     `json:"id"`
 	Type     string `json:"type"`
 	Names    []Name `json:"names"`
@@ -99,7 +109,7 @@ type BelongsTo []struct {
 	AddressType            string     `json:"address_type"`
 }
 
-type AssociatedLocations []struct {
+type AssociatedLocations struct {
 	ID                      ID     `json:"id"`
 	Type                    string `json:"type"`
 	ValidFor                string `json:"valid_for"`
@@ -142,7 +152,7 @@ type Reputation struct {
 		Score    int `json:"score"`
 		Type     int `json:"type"`
 		Category int `json:"category"`
-	} `json:"details"`
+	}
 }
 
 type BestLocation struct {
