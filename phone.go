@@ -11,7 +11,10 @@ type Result struct {
 	BelongsTo
 	AssociatedLocations
 	BestLocation
-	Reputation
+	Reputation struct {
+		SpamScore int
+		Level     int
+	}
 }
 
 type ID struct {
@@ -144,6 +147,7 @@ type AssociatedLocations struct {
 	ContactCreationDate     string `json:"contact_creation_date"`
 }
 
+/*
 type Reputation struct {
 	SpamScore int `json:"spam_score"`
 	SpamIndex int `json:"spam_index`
@@ -154,6 +158,7 @@ type Reputation struct {
 		Category int `json:"category"`
 	}
 }
+*/
 
 type BestLocation struct {
 	ID                      ID     `json:"id"`
