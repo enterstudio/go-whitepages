@@ -6,10 +6,10 @@ import (
 )
 
 type V2PhoneResponse struct {
-	Results
+	Results []Result `json:"results"`
 }
 
-type Results []struct {
+type Result struct {
 	ID struct {
 		Key        string `json:"key"`
 		URL        string `json:"url"`
@@ -17,20 +17,20 @@ type Results []struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	}
-	LineType            string `json:"line_type"`
-	BelongsTo           `json:"belongs_to"`
-	AssociatedLocations `json:"associated_locations"`
-	IsConnected         bool   `json:"is_connected"`
-	IsValid             bool   `json:"is_valid"`
-	PhoneNumber         string `json:"phone_number"`
-	CountryCallingCode  string `json:"country_calling_code"`
-	Exension            string `json:"extension"`
-	Carrier             string `json:"carrier"`
-	DoNotCall           bool   `json:"do_not_call"`
-	IsPrepaid           bool   `json:"is_prepaid"`
+	LineType            string               `json:"line_type"`
+	BelongsTo           []BelongsTo          `json:"belongs_to"`
+	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
+	IsConnected         bool                 `json:"is_connected"`
+	IsValid             bool                 `json:"is_valid"`
+	PhoneNumber         string               `json:"phone_number"`
+	CountryCallingCode  string               `json:"country_calling_code"`
+	Extension           string               `json:"extension"`
+	Carrier             string               `json:"carrier"`
+	DoNotCall           bool                 `json:"do_not_call"`
+	IsPrepaid           bool                 `json:"is_prepaid"`
 }
 
-type BelongsTo []struct {
+type BelongsTo struct {
 	ID struct {
 		Key        string `json:"key"`
 		Url        string `json:"url"`
@@ -38,19 +38,19 @@ type BelongsTo []struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type         string `json:"type"`
-	Names        `json:"names"`
-	AgeRange     `json:"age_range"`
-	Gender       string `json:"gender"`
-	Locations    `json:"locations"`
-	Phones       `json:"phones"`
-	BestName     string `json:"best_name"`
+	Type         string     `json:"type"`
+	Names        []Name     `json:"names"`
+	AgeRange     []AgeRange `json:"age_range"`
+	Gender       string     `json:"gender"`
+	Locations    []Location `json:"locations"`
+	Phones       []Phone    `json:"phones"`
+	BestName     string     `json:"best_name"`
 	BestLocation `json:"best_location"`
 	ValidFor     string `json:"valid_for"`
 	IsHistorical bool   `json:"is_historical"`
 }
 
-type Names []struct {
+type Name struct {
 	Salutation string `json:"salutation"`
 	FirstName  string `json:"first_name"`
 	MiddleName string `json:"middle_name"`
@@ -59,12 +59,12 @@ type Names []struct {
 	ValidFor   string `json:"valid_for"`
 }
 
-type AgeRange []struct {
+type AgeRange struct {
 	Start int `json:"start"`
 	End   int `json:"end"`
 }
 
-type Locations []struct {
+type Location struct {
 	ID struct {
 		Key        string `json:"key"`
 		URL        string `json:"url"`
@@ -124,7 +124,7 @@ type LatLong struct {
 	Accuracy  string  `json:"accuracy"`
 }
 
-type Phones []struct {
+type Phone struct {
 	ID struct {
 		Key        string `json:"key"`
 		URL        string `json:"url"`
@@ -199,7 +199,7 @@ type BestLocation struct {
 	StandardAddressLocation string `json:"standard_address_location"`
 }
 
-type AssociatedLocations []struct {
+type AssociatedLocation struct {
 	ID struct {
 		Key        string `json:"key"`
 		URL        string `json:"url"`
