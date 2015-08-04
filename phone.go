@@ -120,7 +120,40 @@ type LatLong struct {
 }
 
 type Phones []struct {
-	LineType string `json:"line_type"`
+	ID struct {
+		Key        string `json:"key"`
+		URL        string `json:"url"`
+		Type       string `json:"type"`
+		UUID       string `json:"uuid"`
+		Durability string `json:"durability"`
+	} `json:"id"`
+	LineType            string `json:"line_type"`
+	BelongsTo           string `json:"belongs_to"`
+	AssociatedLocations string `json:"associated_locations"`
+	IsValid             bool   `json:"is_valid"`
+	PhoneNumber         string `json:"phone_number"`
+	CountryCallingCode  string `json:"country_calling_code"`
+	Extension           string `json:"extension"`
+	Carrier             string `json:"carrier"`
+	DoNotCall           bool   `json:"do_not_call"`
+	Reputation          `json:"reputation"`
+	IsPrepaid           bool   `json:"is_prepaid"`
+	IsConnected         bool   `json:"is_connected"`
+	BestLocation        string `json:"best_location"`
+	ValidFor            string `json:"valid_for"`
+	ContactType         string `json:"contact_type"`
+	ContactCreationDate int    `json:"contact_creation_date"`
+}
+
+type Reputation struct {
+	SpamScore int `json:"spam_score"`
+	SpamIndex int `json:"spam_index"`
+	Level     int `json:"level"`
+	Details   []struct {
+		Score    int    `json:"score"`
+		Type     string `json:"type"`
+		Category string `json:"category"`
+	} `json:"details"`
 }
 
 func (c *V2Client) Phone(params map[string]string, timeout time.Duration) (error, V2PhoneResponse) {
