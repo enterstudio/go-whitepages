@@ -37,12 +37,16 @@ type BelongsTo []struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type      string `json:"type"`
-	Names     `json:"names"`
-	AgeRange  `json:"age_range"`
-	Gender    string `json:"gender"`
-	Locations `json:"locations"`
-	Phones    `json:"phones"`
+	Type         string `json:"type"`
+	Names        `json:"names"`
+	AgeRange     `json:"age_range"`
+	Gender       string `json:"gender"`
+	Locations    `json:"locations"`
+	Phones       `json:"phones"`
+	BestName     string `json:"best_name"`
+	BestLocation `json:"best_location"`
+	ValidFor     string `json:"valid_for"`
+	IsHistorical bool   `json:"is_historical"`
 }
 
 type Names []struct {
@@ -154,6 +158,44 @@ type Reputation struct {
 		Type     string `json:"type"`
 		Category string `json:"category"`
 	} `json:"details"`
+}
+
+type BestLocation struct {
+	ID struct {
+		Key        string `json:"key"`
+		URL        string `json:"url"`
+		Type       string `json:"type"`
+		UUID       string `json:"uuid"`
+		Durability string `json:"durability"`
+	} `json:"id"`
+	Type                    string `json:"type"`
+	ValidFor                string `json:"valid_for"`
+	LegalEntitiesAt         string `json:"legal_entities_at"`
+	City                    string `json:"city"`
+	PostalCode              string `json:"postal_code"`
+	Zip4                    string `json:"zip4"`
+	StateCode               string `json:"state_code"`
+	CountryCode             string `json:"country_code"`
+	Address                 string `json:"address"`
+	House                   string `json:"house"`
+	StreetName              string `json:"street_name"`
+	StreetType              string `json:"street_type"`
+	PreDir                  string `json:"pre_dir"`
+	PostDir                 string `json:"post_dir"`
+	AptNumber               string `json:"apt_number"`
+	AptType                 string `json:"apt_type"`
+	BoxNumber               string `json:"box_number"`
+	IsReceivingMail         bool   `json:"is_receiving_mail"`
+	NotReceivingMailReason  string `json:"not_receiving_mail_reason"`
+	Usage                   string `json:"usage"`
+	DeliveryPoint           string `json:"delivery_point"`
+	BoxType                 string `json:"box_type"`
+	AddressType             string `json:"address_type"`
+	LatLong                 `json:"lat_long"`
+	IsDeliverable           bool   `json:"is_deliverable"`
+	StandardAddressLine1    string `json:"standard_address_line1"`
+	StandardAddressLine2    string `json:"standard_address_line2"`
+	StandardAddressLocation string `json:"standard_address_location"`
 }
 
 func (c *V2Client) Phone(params map[string]string, timeout time.Duration) (error, V2PhoneResponse) {
