@@ -72,8 +72,8 @@ type Location struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type                    string `json:"type"`
-	ValidFor                `json:"valid_for"`
+	Type                    string   `json:"type"`
+	ValidFor                ValidFor `json:"valid_for"`
 	LatLong                 `json:"lat_long"`
 	LegalEntitiesAt         string `json:"legal_entities_at"`
 	City                    string `json:"city"`
@@ -102,7 +102,7 @@ type Location struct {
 	StandardAddressLocation string `json:"standard_address_location"`
 	IsHistorical            bool   `json:"is_historical"`
 	ContactType             string `json:"contact_type"`
-	ContactCreationDate     int    `json:"contact_creation_date"`
+	ContactCreationDate     int64  `json:"contact_creation_date"`
 }
 
 type ValidFor struct {
