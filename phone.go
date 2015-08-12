@@ -147,7 +147,7 @@ type Phone struct {
 	BestLocation        string `json:"best_location"`
 	ValidFor            string `json:"valid_for"`
 	ContactType         string `json:"contact_type"`
-	ContactCreationDate int    `json:"contact_creation_date"`
+	ContactCreationDate int64  `json:"contact_creation_date"`
 }
 
 type Reputation struct {
@@ -237,7 +237,7 @@ type AssociatedLocation struct {
 	StandardAddressLocation string `json:"standard_address_location"`
 	IsHistorical            bool   `json:"is_historical"`
 	ContactType             string `json:"contact_type"`
-	ContactCreationDate     string `json:"contact_creation_date"`
+	ContactCreationDate     int64  `json:"contact_creation_date"`
 }
 
 func (c *V2Client) Phone(params map[string]string, timeout time.Duration) (error, V2PhoneResponse) {
