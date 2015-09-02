@@ -1,7 +1,6 @@
 package whitepages
 
 import (
-	"log"
 	"testing"
 	"time"
 
@@ -19,9 +18,9 @@ func TestAddress(t *testing.T) {
 		err, addr := client.Address(params, timeout)
 		So(err, ShouldBeNil)
 		So(addr.Results, ShouldNotBeEmpty)
-		for _, v := range addr.Results {
-			log.Printf("%+v", v)
-		}
+		// for _, v := range addr.Results {
+		// 	log.Printf("%+v", v)
+		// }
 	})
 
 }

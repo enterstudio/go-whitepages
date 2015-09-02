@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -54,6 +55,7 @@ func (c *Client) request(method string, timeout time.Duration, params map[string
 		Timeout: timeout,
 	}
 	response, err := client.Get(req.String())
+	log.Println(req.String())
 
 	if err != nil {
 		return err, []byte{}

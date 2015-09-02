@@ -4,6 +4,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 var client *Client
@@ -21,13 +23,15 @@ func TestKey(t *testing.T) {
 }
 
 func TestPhone(t *testing.T) {
-	timeout := time.Duration(20 * time.Second)
-	params := make(map[string]string)
-	params["phone_number"] = "2069735100"
-	params["response_type"] = "lite"
+	Convey("Test phone lite", t, func() {
+		timeout := time.Duration(20 * time.Second)
+		params := make(map[string]string)
+		params["phone_number"] = "2069735100"
+		params["response_type"] = "lite"
 
-	err, _ := client.Phone(params, timeout)
-	if err != nil {
-		t.Error(err)
-	}
+		err, _ := client.Phone(params, timeout)
+		So(err, ShouldBeNil)
+
+	})
+
 }
