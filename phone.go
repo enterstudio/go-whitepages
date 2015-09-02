@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type V2PhoneResponse struct {
+type PhoneResponse struct {
 	Results []Result `json:"results"`
 }
 
@@ -240,8 +240,8 @@ type AssociatedLocation struct {
 	ContactCreationDate     int64  `json:"contact_creation_date"`
 }
 
-func (c *V2Client) Phone(params map[string]string, timeout time.Duration) (error, V2PhoneResponse) {
-	p := V2PhoneResponse{}
+func (c *Client) Phone(params map[string]string, timeout time.Duration) (error, PhoneResponse) {
+	p := PhoneResponse{}
 	err, response := c.request("phone.json", timeout, params)
 	if err != nil {
 		return err, p

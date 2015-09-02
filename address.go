@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type V2AddressResponse struct {
+type AddressResponse struct {
 	Messages []interface{} `json:"messages"`
 	Results  []struct {
 		Address       string      `json:"address"`
@@ -179,8 +179,8 @@ type V2AddressResponse struct {
 	} `json:"results"`
 }
 
-func (c *V2Client) Address(params map[string]string, timeout time.Duration) (error, V2AddressResponse) {
-	p := V2AddressResponse{}
+func (c *Client) Address(params map[string]string, timeout time.Duration) (error, AddressResponse) {
+	p := AddressResponse{}
 	err, response := c.request("location.json", timeout, params)
 	if err != nil {
 		return err, p

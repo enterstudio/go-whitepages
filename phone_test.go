@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-var client *V2Client
+var client *Client
 
 func init() {
 	key := os.Getenv("WP_API_KEY")
-	client = NewV2Client(key)
+	client = NewClient(key)
 }
 
 func TestKey(t *testing.T) {

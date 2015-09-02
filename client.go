@@ -12,11 +12,11 @@ import (
 const (
 	libraryVersion = "0.1"
 	defaultBaseURL = "https://proapi.whitepages.com/"
-	v2Version      = "2.1"
+	version        = "2.1"
 	defaultTimeout = 10 * time.Second
 )
 
-type V2Client struct {
+type Client struct {
 	ApiKey    string
 	Version   string
 	BaseURL   string
@@ -31,15 +31,15 @@ type ErrorResponse struct {
 	} `json:"error"`
 }
 
-func NewV2Client(key string) *V2Client {
-	c := &V2Client{}
+func NewClient(key string) *Client {
+	c := &Client{}
 	c.ApiKey = key
-	baseURL := defaultBaseURL + v2Version + "/"
+	baseURL := defaultBaseURL + version + "/"
 	c.BaseURL = baseURL
 	return c
 }
 
-func (c *V2Client) request(method string, timeout time.Duration, params map[string]string) (error, []byte) {
+func (c *Client) request(method string, timeout time.Duration, params map[string]string) (error, []byte) {
 	req, _ := url.Parse(c.BaseURL + method)
 	p := url.Values{}
 
