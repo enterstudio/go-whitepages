@@ -40,7 +40,7 @@ type BelongsTo struct {
 	} `json:"id"`
 	Type         string     `json:"type"`
 	Names        []Name     `json:"names"`
-	AgeRange     []AgeRange `json:"age_range"`
+	AgeRange     AgeRange   `json:"age_range"`
 	Gender       string     `json:"gender"`
 	Locations    []Location `json:"locations"`
 	Phones       []Phone    `json:"phones"`
