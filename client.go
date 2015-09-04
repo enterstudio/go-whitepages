@@ -40,7 +40,33 @@ func NewClient(key string) *Client {
 	return c
 }
 
-func (c *Client) request(method string, timeout time.Duration, params map[string]string) (error, []byte) {
+func (c *Client) Phone(params map[string]string, timeout time.Duration) (PhoneResponse, error) {
+	p := PhoneResponse{}
+	response, err := c.request("phone.json", timeout, params)
+	if err != nil {
+		return p, err
+	}
+	if err = json.Unmarshal(response, &p); err != nil {
+		return p, err
+	}
+	return p, err
+
+}
+
+func (c *Client) Address(params map[string]string, timeout time.Duration) (AddressResponse, error) {
+	p := AddressResponse{}
+	response, err := c.request("location.json", timeout, params)
+	if err != nil {
+		return p, err
+	}
+	if err = json.Unmarshal(response, &p); err != nil {
+		return p, err
+	}
+	return p, err
+
+}
+
+func (c *Client) request(method string, timeout time.Duration, params map[string]string) ([]byte, error) {
 	req, _ := url.Parse(c.BaseURL + method)
 	p := url.Values{}
 
@@ -58,20 +84,20 @@ func (c *Client) request(method string, timeout time.Duration, params map[string
 	log.Println(req.String())
 
 	if err != nil {
-		return err, []byte{}
+		return []byte{}, err
 	} else {
 		defer response.Body.Close()
 		contents, err := ioutil.ReadAll(response.Body)
 		if err != nil {
-			return err, []byte{}
+			return []byte{}, err
 		}
 		e := ErrorResponse{}
 		if err = json.Unmarshal(contents, &e); err != nil {
-			return err, nil
+			return nil, err
 		}
 		if len(e.Error.Message) > 0 {
-			return errors.New(e.Error.Message), nil
+			return nil, errors.New(e.Error.Message)
 		}
-		return nil, contents
+		return contents, err
 	}
 }

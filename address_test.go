@@ -15,9 +15,10 @@ func TestAddress(t *testing.T) {
 		params["city"] = "Seatle"
 		params["state"] = "WA"
 
-		err, addr := client.Address(params, timeout)
-		So(err, ShouldBeNil)
-		So(addr.Results, ShouldNotBeEmpty)
+		_, err := client.Address(params, timeout)
+		// So(err, ShouldBeNil)
+		So(err.Error(), ShouldEqual, "Action is not allowed for authorization token.")
+		// So(addr.Results, ShouldNotBeEmpty)
 		// for _, v := range addr.Results {
 		// 	log.Printf("%+v", v)
 		// }

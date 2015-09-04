@@ -1,10 +1,5 @@
 package whitepages
 
-import (
-	"encoding/json"
-	"time"
-)
-
 type AddressResponse struct {
 	Messages []interface{} `json:"messages"`
 	Results  []struct {
@@ -177,17 +172,4 @@ type AddressResponse struct {
 		ValidFor                interface{} `json:"valid_for"`
 		Zip4                    string      `json:"zip4"`
 	} `json:"results"`
-}
-
-func (c *Client) Address(params map[string]string, timeout time.Duration) (error, AddressResponse) {
-	p := AddressResponse{}
-	err, response := c.request("location.json", timeout, params)
-	if err != nil {
-		return err, p
-	}
-	if err = json.Unmarshal(response, &p); err != nil {
-		return err, p
-	}
-	return nil, p
-
 }

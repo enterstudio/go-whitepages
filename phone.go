@@ -1,12 +1,8 @@
 package whitepages
 
-import (
-	"encoding/json"
-	"time"
-)
-
 type PhoneResponse struct {
 	Results []Result `json:"results"`
+	// Messages []Message `json:"messages"`
 }
 
 type Result struct {
@@ -18,7 +14,7 @@ type Result struct {
 		Durability string `json:"durability"`
 	}
 	LineType            string               `json:"line_type"`
-	BelongsTo           []BelongsTo          `json:"belongs_to"`
+	BelongsTos          []BelongsTo          `json:"belongs_to"`
 	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
 	IsConnected         bool                 `json:"is_connected"`
 	IsValid             bool                 `json:"is_valid"`
@@ -38,25 +34,25 @@ type BelongsTo struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type         string     `json:"type"`
-	Names        []Name     `json:"names"`
-	AgeRange     AgeRange   `json:"age_range"`
-	Gender       string     `json:"gender"`
-	Locations    []Location `json:"locations"`
-	Phones       []Phone    `json:"phones"`
-	BestName     string     `json:"best_name"`
-	BestLocation `json:"best_location"`
-	ValidFor     string `json:"valid_for"`
-	IsHistorical bool   `json:"is_historical"`
+	Type         string       `json:"type"`
+	Names        []Name       `json:"names"`
+	AgeRange     AgeRange     `json:"age_range"`
+	Gender       string       `json:"gender"`
+	Locations    []Location   `json:"locations"`
+	Phones       []Phone      `json:"phones"`
+	BestName     string       `json:"best_name"`
+	BestLocation BestLocation `json:"best_location"`
+	ValidFor     ValidFor     `json:"valid_for"`
+	IsHistorical bool         `json:"is_historical"`
 }
 
 type Name struct {
-	Salutation string `json:"salutation"`
-	FirstName  string `json:"first_name"`
-	MiddleName string `json:"middle_name"`
-	LastName   string `json:"last_name"`
-	Suffix     string `json:"suffix"`
-	ValidFor   string `json:"valid_for"`
+	Salutation string   `json:"salutation"`
+	FirstName  string   `json:"first_name"`
+	MiddleName string   `json:"middle_name"`
+	LastName   string   `json:"last_name"`
+	Suffix     string   `json:"suffix"`
+	ValidFor   ValidFor `json:"valid_for"`
 }
 
 type AgeRange struct {
@@ -74,35 +70,35 @@ type Location struct {
 	} `json:"id"`
 	Type                    string   `json:"type"`
 	ValidFor                ValidFor `json:"valid_for"`
-	LatLong                 `json:"lat_long"`
-	LegalEntitiesAt         string `json:"legal_entities_at"`
-	City                    string `json:"city"`
-	PostalCode              string `json:"postal_code"`
-	Zip4                    string `json:"zip4"`
-	StateCode               string `json:"state_code"`
-	CountryCode             string `json:"country_code"`
-	Address                 string `json:"address"`
-	House                   string `json:"house"`
-	StreetName              string `json:"street_name"`
-	StreetType              string `json:"street_type"`
-	PreDir                  string `json:"pre_dir"`
-	PostDir                 string `json:"post_dir"`
-	AptNumber               string `json:"apt_number"`
-	AptType                 string `json:"apt_type"`
-	BoxNumber               string `json:"box_number"`
-	IsReceivingMail         bool   `json:"is_receiving_mail"`
-	NotReceivingMailReason  string `json:"not_receiving_mail_reason"`
-	Usage                   string `json:"usage"`
-	DeliveryPoint           string `json:"delivery_point"`
-	BoxType                 string `json:"box_type"`
-	AddressType             string `json:"address_type"`
-	IsDeliverable           bool   `json:"is_deliverable"`
-	StandardAddressLine1    string `json:"standard_address_line1"`
-	StandardAddressLine2    string `json:"standard_address_line2"`
-	StandardAddressLocation string `json:"standard_address_location"`
-	IsHistorical            bool   `json:"is_historical"`
-	ContactType             string `json:"contact_type"`
-	ContactCreationDate     int64  `json:"contact_creation_date"`
+	LatLong                 LatLong  `json:"lat_long"`
+	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	City                    string   `json:"city"`
+	PostalCode              string   `json:"postal_code"`
+	Zip4                    string   `json:"zip4"`
+	StateCode               string   `json:"state_code"`
+	CountryCode             string   `json:"country_code"`
+	Address                 string   `json:"address"`
+	House                   string   `json:"house"`
+	StreetName              string   `json:"street_name"`
+	StreetType              string   `json:"street_type"`
+	PreDir                  string   `json:"pre_dir"`
+	PostDir                 string   `json:"post_dir"`
+	AptNumber               string   `json:"apt_number"`
+	AptType                 string   `json:"apt_type"`
+	BoxNumber               string   `json:"box_number"`
+	IsReceivingMail         bool     `json:"is_receiving_mail"`
+	NotReceivingMailReason  string   `json:"not_receiving_mail_reason"`
+	Usage                   string   `json:"usage"`
+	DeliveryPoint           string   `json:"delivery_point"`
+	BoxType                 string   `json:"box_type"`
+	AddressType             string   `json:"address_type"`
+	IsDeliverable           bool     `json:"is_deliverable"`
+	StandardAddressLine1    string   `json:"standard_address_line1"`
+	StandardAddressLine2    string   `json:"standard_address_line2"`
+	StandardAddressLocation string   `json:"standard_address_location"`
+	IsHistorical            bool     `json:"is_historical"`
+	ContactType             string   `json:"contact_type"`
+	ContactCreationDate     int64    `json:"contact_creation_date"`
 }
 
 type ValidFor struct {
@@ -132,20 +128,20 @@ type Phone struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	LineType            string `json:"line_type"`
-	BelongsTo           string `json:"belongs_to"`
-	AssociatedLocations string `json:"associated_locations"`
-	IsValid             bool   `json:"is_valid"`
-	PhoneNumber         string `json:"phone_number"`
-	CountryCallingCode  string `json:"country_calling_code"`
-	Extension           string `json:"extension"`
-	Carrier             string `json:"carrier"`
-	DoNotCall           bool   `json:"do_not_call"`
-	Reputation          `json:"reputation"`
+	LineType            string       `json:"line_type"`
+	BelongsTo           string       `json:"belongs_to"`
+	AssociatedLocations string       `json:"associated_locations"`
+	IsValid             bool         `json:"is_valid"`
+	PhoneNumber         string       `json:"phone_number"`
+	CountryCallingCode  string       `json:"country_calling_code"`
+	Extension           string       `json:"extension"`
+	Carrier             string       `json:"carrier"`
+	DoNotCall           bool         `json:"do_not_call"`
+	Reputation          Reputation   `json:"reputation"`
 	IsPrepaid           bool         `json:"is_prepaid"`
 	IsConnected         bool         `json:"is_connected"`
 	BestLocation        BestLocation `json:"best_location"`
-	ValidFor            string       `json:"valid_for"`
+	ValidFor            ValidFor     `json:"valid_for"`
 	ContactType         string       `json:"contact_type"`
 	ContactCreationDate int64        `json:"contact_creation_date"`
 }
@@ -169,34 +165,34 @@ type BestLocation struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type                    string `json:"type"`
-	ValidFor                string `json:"valid_for"`
-	LegalEntitiesAt         string `json:"legal_entities_at"`
-	City                    string `json:"city"`
-	PostalCode              string `json:"postal_code"`
-	Zip4                    string `json:"zip4"`
-	StateCode               string `json:"state_code"`
-	CountryCode             string `json:"country_code"`
-	Address                 string `json:"address"`
-	House                   string `json:"house"`
-	StreetName              string `json:"street_name"`
-	StreetType              string `json:"street_type"`
-	PreDir                  string `json:"pre_dir"`
-	PostDir                 string `json:"post_dir"`
-	AptNumber               string `json:"apt_number"`
-	AptType                 string `json:"apt_type"`
-	BoxNumber               string `json:"box_number"`
-	IsReceivingMail         bool   `json:"is_receiving_mail"`
-	NotReceivingMailReason  string `json:"not_receiving_mail_reason"`
-	Usage                   string `json:"usage"`
-	DeliveryPoint           string `json:"delivery_point"`
-	BoxType                 string `json:"box_type"`
-	AddressType             string `json:"address_type"`
-	LatLong                 `json:"lat_long"`
-	IsDeliverable           bool   `json:"is_deliverable"`
-	StandardAddressLine1    string `json:"standard_address_line1"`
-	StandardAddressLine2    string `json:"standard_address_line2"`
-	StandardAddressLocation string `json:"standard_address_location"`
+	Type                    string   `json:"type"`
+	ValidFor                ValidFor `json:"valid_for"`
+	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	City                    string   `json:"city"`
+	PostalCode              string   `json:"postal_code"`
+	Zip4                    string   `json:"zip4"`
+	StateCode               string   `json:"state_code"`
+	CountryCode             string   `json:"country_code"`
+	Address                 string   `json:"address"`
+	House                   string   `json:"house"`
+	StreetName              string   `json:"street_name"`
+	StreetType              string   `json:"street_type"`
+	PreDir                  string   `json:"pre_dir"`
+	PostDir                 string   `json:"post_dir"`
+	AptNumber               string   `json:"apt_number"`
+	AptType                 string   `json:"apt_type"`
+	BoxNumber               string   `json:"box_number"`
+	IsReceivingMail         bool     `json:"is_receiving_mail"`
+	NotReceivingMailReason  string   `json:"not_receiving_mail_reason"`
+	Usage                   string   `json:"usage"`
+	DeliveryPoint           string   `json:"delivery_point"`
+	BoxType                 string   `json:"box_type"`
+	AddressType             string   `json:"address_type"`
+	LatLong                 LatLong  `json:"lat_long"`
+	IsDeliverable           bool     `json:"is_deliverable"`
+	StandardAddressLine1    string   `json:"standard_address_line1"`
+	StandardAddressLine2    string   `json:"standard_address_line2"`
+	StandardAddressLocation string   `json:"standard_address_location"`
 }
 
 type AssociatedLocation struct {
@@ -207,48 +203,35 @@ type AssociatedLocation struct {
 		UUID       string `json:"uuid"`
 		Durability string `json:"durability"`
 	} `json:"id"`
-	Type                    string `json:"type"`
-	ValidFor                string `json:"valid_for"`
-	LegalEntitiesAt         string `json:"legal_entities_at"`
-	City                    string `json:"city"`
-	PostalCode              string `json:"postal_code"`
-	Zip4                    string `json:"zip4"`
-	StateCode               string `json:"state_code"`
-	CountryCode             string `json:"country_code"`
-	Address                 string `json:"address"`
-	House                   string `json:"house"`
-	StreetName              string `json:"street_name"`
-	StreetType              string `json:"street_type"`
-	PreDir                  string `json:"pre_dir"`
-	PostDir                 string `json:"post_dir"`
-	AptNumber               string `json:"apt_number"`
-	AptType                 string `json:"apt_type"`
-	BoxNumber               string `json:"box_number"`
-	IsReceivingMail         bool   `json:"is_receiving_mail"`
-	NotReceivingMailReason  string `json:"not_receiving_mail_reason"`
-	Usage                   string `json:"usage"`
-	DeliveryPoint           string `json:"delivery_point"`
-	BoxType                 string `json:"box_type"`
-	AddressType             string `json:"address_type"`
-	LatLong                 `json:"lat_long"`
-	IsDeliverable           bool   `json:"is_deliverable"`
-	StandardAddressLine1    string `json:"standard_address_line1"`
-	StandardAddressLine2    string `json:"standard_address_line2"`
-	StandardAddressLocation string `json:"standard_address_location"`
-	IsHistorical            bool   `json:"is_historical"`
-	ContactType             string `json:"contact_type"`
-	ContactCreationDate     int64  `json:"contact_creation_date"`
-}
-
-func (c *Client) Phone(params map[string]string, timeout time.Duration) (error, PhoneResponse) {
-	p := PhoneResponse{}
-	err, response := c.request("phone.json", timeout, params)
-	if err != nil {
-		return err, p
-	}
-	if err = json.Unmarshal(response, &p); err != nil {
-		return err, p
-	}
-	return nil, p
-
+	Type                    string   `json:"type"`
+	ValidFor                ValidFor `json:"valid_for"`
+	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	City                    string   `json:"city"`
+	PostalCode              string   `json:"postal_code"`
+	Zip4                    string   `json:"zip4"`
+	StateCode               string   `json:"state_code"`
+	CountryCode             string   `json:"country_code"`
+	Address                 string   `json:"address"`
+	House                   string   `json:"house"`
+	StreetName              string   `json:"street_name"`
+	StreetType              string   `json:"street_type"`
+	PreDir                  string   `json:"pre_dir"`
+	PostDir                 string   `json:"post_dir"`
+	AptNumber               string   `json:"apt_number"`
+	AptType                 string   `json:"apt_type"`
+	BoxNumber               string   `json:"box_number"`
+	IsReceivingMail         bool     `json:"is_receiving_mail"`
+	NotReceivingMailReason  string   `json:"not_receiving_mail_reason"`
+	Usage                   string   `json:"usage"`
+	DeliveryPoint           string   `json:"delivery_point"`
+	BoxType                 string   `json:"box_type"`
+	AddressType             string   `json:"address_type"`
+	LatLong                 LatLong  `json:"lat_long"`
+	IsDeliverable           bool     `json:"is_deliverable"`
+	StandardAddressLine1    string   `json:"standard_address_line1"`
+	StandardAddressLine2    string   `json:"standard_address_line2"`
+	StandardAddressLocation string   `json:"standard_address_location"`
+	IsHistorical            bool     `json:"is_historical"`
+	ContactType             string   `json:"contact_type"`
+	ContactCreationDate     int64    `json:"contact_creation_date"`
 }
