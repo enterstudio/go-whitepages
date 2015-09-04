@@ -142,12 +142,12 @@ type Phone struct {
 	Carrier             string `json:"carrier"`
 	DoNotCall           bool   `json:"do_not_call"`
 	Reputation          `json:"reputation"`
-	IsPrepaid           bool   `json:"is_prepaid"`
-	IsConnected         bool   `json:"is_connected"`
-	BestLocation        string `json:"best_location"`
-	ValidFor            string `json:"valid_for"`
-	ContactType         string `json:"contact_type"`
-	ContactCreationDate int64  `json:"contact_creation_date"`
+	IsPrepaid           bool         `json:"is_prepaid"`
+	IsConnected         bool         `json:"is_connected"`
+	BestLocation        BestLocation `json:"best_location"`
+	ValidFor            string       `json:"valid_for"`
+	ContactType         string       `json:"contact_type"`
+	ContactCreationDate int64        `json:"contact_creation_date"`
 }
 
 type Reputation struct {
