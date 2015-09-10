@@ -102,16 +102,14 @@ type Location struct {
 }
 
 type ValidFor struct {
-	Start struct {
-		Year  int `json:"year"`
-		Month int `json:"month"`
-		Day   int `json:"day"`
-	} `json:"start"`
-	Stop struct {
-		Year  int `json:"year"`
-		Month int `json:"month"`
-		Day   int `json:"day"`
-	} `json:"stop"`
+	Start Date `json:"start"`
+	Stop  Date `json:"stop"`
+}
+
+type Date struct {
+	Year  int `json:"year"`
+	Month int `json:"month"`
+	Day   int `json:"day"`
 }
 
 type LatLong struct {
