@@ -5,14 +5,15 @@ type PhoneResponse struct {
 	// Messages []Message `json:"messages"`
 }
 
+type ID struct {
+	Key        string `json:"key"`
+	URL        string `json:"url"`
+	Type       string `json:"type"`
+	UUID       string `json:"uuid"`
+	Durability string `json:"durability"`
+}
+
 type Result struct {
-	ID struct {
-		Key        string `json:"key"`
-		URL        string `json:"url"`
-		Type       string `json:"type"`
-		UUID       string `json:"uuid"`
-		Durability string `json:"durability"`
-	}
 	LineType            string               `json:"line_type"`
 	BelongsTos          []BelongsTo          `json:"belongs_to"`
 	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
