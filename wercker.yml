@@ -24,8 +24,15 @@ build:
   steps:
     # Sets the go workspace and places you package
     # at the right place in the workspace tree
+    # - wercker/golint
     - setup-go-workspace
 
+    # setup
+    - script: get dependencies
+        name: setup
+        code: | 
+            go get github.com/tools/godep
+    
     # Build the project
     - script:
         name: go build
@@ -37,5 +44,4 @@ build:
         name: go test
         code: |
           godep go test ./...          
-          
-          
+       
