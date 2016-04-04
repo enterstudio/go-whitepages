@@ -2,7 +2,6 @@ package whitepages
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 	"net/url"
 	"time"
@@ -17,6 +16,7 @@ const (
 	defaultTimeout = 10 * time.Second
 )
 
+// Client is the whitepages client
 type Client struct {
 	APIKey    string
 	Version   string
@@ -25,6 +25,7 @@ type Client struct {
 	Timeout   time.Duration
 }
 
+// ErrorResponse is the differently structured ErrorResponse. This can probably be set in the actual response so either one that returns will be populated.
 type ErrorResponse struct {
 	Error struct {
 		Message string `json:"message"`
@@ -32,6 +33,7 @@ type ErrorResponse struct {
 	} `json:"error"`
 }
 
+// NewClient is a client constructor method
 func NewClient(key string) *Client {
 	c := &Client{}
 	c.APIKey = key
@@ -40,6 +42,10 @@ func NewClient(key string) *Client {
 	return c
 }
 
+// Lead verify
+// Request variables:api_key, name, first_name, last_name, phone, email_address, ip_address,address.city, address.state_code,address.county_code
+
+// Phone is a reverse phone search
 func (c *Client) Phone(params map[string]string, opts concierge.Options) (PhoneResponse, bool, error) {
 	p := PhoneResponse{}
 	response, cached, err := c.request("phone.json", params, opts)
@@ -52,6 +58,7 @@ func (c *Client) Phone(params map[string]string, opts concierge.Options) (PhoneR
 	return p, cached, err
 }
 
+// Address is a reverse location search
 func (c *Client) Address(params map[string]string, opts concierge.Options) (AddressResponse, bool, error) {
 	p := AddressResponse{}
 	response, cached, err := c.request("location.json", params, opts)
@@ -85,24 +92,6 @@ func (c *Client) request(method string, params map[string]string, opts concierge
 	doer := concierge.NewHTTPDoer(request)
 	res, cached, err = concierge.Request(method, doer, opts)
 	if err != nil {
-		return
-	}
-
-	// defer response.Body.Close()
-
-	// res, err = ioutil.ReadAll(response.Body)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	e := ErrorResponse{}
-	err = json.Unmarshal(res, &e)
-	if err != nil {
-		return
-	}
-
-	if len(e.Error.Message) > 0 {
-		err = errors.New(e.Error.Message)
 		return
 	}
 

@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 	"time"
-
+    "github.com/the-control-group/go-concierge"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -18,7 +18,7 @@ func init() {
 }
 
 func TestKey(t *testing.T) {
-	if client.ApiKey == "" {
+	if client.APIKey == "" {
 		t.Error("api key not set, you must set the environment variable WP_API_KEY before running")
 		t.FailNow()
 	}
@@ -38,7 +38,6 @@ func TestMarshalSampleResponse(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 	})
-
 }
 
 func TestPhone(t *testing.T) {
@@ -47,8 +46,9 @@ func TestPhone(t *testing.T) {
 		params := make(map[string]string)
 		params["phone_number"] = "2069735100"
 		params["response_type"] = "lite"
-
-		_, err := client.Phone(params, timeout)
+        options := concierge.Options{Timeout: timeout}
+        
+		_, _, err := client.Phone(params, options)
 		So(err, ShouldBeNil)
 
 	})
@@ -60,8 +60,9 @@ func TestLandlinePhone(t *testing.T) {
 		timeout := time.Duration(20 * time.Second)
 		params := make(map[string]string)
 		params["phone_number"] = "5169389674"
-
-		resp, err := client.Phone(params, timeout)
+        options := concierge.Options{Timeout: timeout}
+		
+        resp, _, err := client.Phone(params, options)
 		So(err, ShouldBeNil)
 		So(resp.Results, ShouldNotBeEmpty)
 	})
