@@ -28,12 +28,10 @@ build:
     - setup-go-workspace
 
     # setup
-    - script: get dependencies
+    - script:
         name: setup
-        code: | 
-            go get github.com/tools/godep
-    
-    # Build the project
+        code: |
+          go get github.com/tools/godep
     - script:
         name: go build
         code: |
@@ -45,3 +43,49 @@ build:
         code: |
           godep go test ./...          
        
+       
+box: golang:1.5-wheezy
+services:
+    - redis
+    - rethinkdb
+
+# This Pipeline is responsible for linting, and testing
+# the data-service.
+build:
+  steps:
+    - wercker/golint
+    - wercker/setup-go-workspace:
+        package-dir: github.com/the-control-group/data-service-api
+    - script:
+        name: setup
+        code: |
+          go get github.com/tools/godep
+          go get github.com/smartystreets/goconvey
+    - script:
+        name: go test
+        code: |
+          export REDIS_HOST=$REDIS_PORT_6379_TCP_ADDR:$REDIS_PORT_6379_TCP_PORT
+          export DATA_CONFIG=$WERCKER_SOURCE_DIR/example-conf
+          export RETHINK_HOST=$RETHINKDB_PORT_28015_TCP_ADDR:$RETHINKDB_PORT_28015_TCP_PORT
+          godep go test -v ./...
+    - script:
+        name: build app
+        code: |
+          export GIT_SHORT_HASH=`git rev-parse --short HEAD`
+          godep go build -ldflags "-X main.version=$GIT_SHORT_HASH" -o bin/data-service main.go
+          echo Packaging Binaries...
+          mkdir -p tmp/data-service/bin
+          cp -R bin scripts tmp/data-service/
+          echo $WERCKER_GIT_COMMIT > tmp/data-service/scripts/regression/commit_hash.txt
+          tar -cvzf $WERCKER_OUTPUT_DIR/data-service.tar.gz -C tmp data-service;
+          rm -rf tmp
+deploy:
+  steps:
+    - chrismckenzie/rackspace-cloud-files-upload@0.0.1:
+        username: $RACKSPACE_USER
+        token: $RACKSPACE_TOKEN
+        region: IAD
+        container: data-service
+        path: $BUILD_PATH/data-service.tar.gz
+        file_path: $WERCKER_ROOT/data-service.tar.gz
+        content_type: application/x-gzip
