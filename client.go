@@ -44,6 +44,19 @@ func NewClient(key string) *Client {
 
 // Lead verify
 // Request variables:api_key, name, first_name, last_name, phone, email_address, ip_address,address.city, address.state_code,address.county_code
+// 1. Create method
+// 2. Create structs
+// 3. Tests
+func (c *Client) LeadVerify(params map[string]string, opts concierge.Options) (l LeadVerifyResponse, cached bool, err error) {
+	response, cached, err := c.request("lead_verify.json", params, opts)
+	if err != nil {
+		return
+	}
+	if err = json.Unmarshal(response, &l); err != nil {
+		return
+	}
+	return
+}
 
 // Phone is a reverse phone search
 func (c *Client) Phone(params map[string]string, opts concierge.Options) (PhoneResponse, bool, error) {
