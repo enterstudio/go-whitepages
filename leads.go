@@ -1,5 +1,12 @@
 package whitepages
 
+// sample links
+// name=Drama+Number&phone=6464806649&email_address=medjalloh1@yahoo.com&address.street_line_1=302+Gorham+Ave&
+// address_city=Ashland&address.postal_code=59004&address.state=MT&ip_address=108.194.128.165
+// https://proapi.whitepages.com/3.1/lead_verify_append.json?api_key=3bc9ee9e70576cc0aff8c0fe38a47b5d&firstname=Chester&lastname=Stevens&email_address=dabearsck2013@comcast.net&phone=3095319550&address.street_line_1=706+N.+Lee+St.&address.postal_code=61701&address_city=Bloomington&address.state=IL
+
+// https://proapi.whitepages.com/3.1/lead_verify.json?api_key=3a83ab40280b6926ee62bc50b4de64c4&firstname=Chester&lastname=Stevens&email_address=dabearsck2013@comcast.net&phone=3095319550&address.street_line_1=706+N.+Lee+St.&address.postal_code=61701&address_city=Bloomington&address.state=IL
+
 // Request Fields
 type Request struct {
 	APIKey string `json:"api_key"`
@@ -36,8 +43,10 @@ type LeadVerifyResponse struct {
 	Request            Request             `json:"request"`
 }
 
-// AddressChecks is a structure that gives verification info about the address in the query
-// No address given will return a null response.
+// AddressChecks indicates whether the address is real and active and verifies if the resident matches
+// the input name provided on the lead. If lead verify + append is used, response also provides
+// certain address metadata attributes and resident’s demographic attributes that can further help
+// prioritize the leads.
 type AddressChecks struct {
 	// A 1-4 score on whether this is a valid address and resident matches to the input name provided for the lead.
 	// Score of 1 indicates a valid address with the resident name matching to the input name provided with the lead.
@@ -53,14 +62,36 @@ type AddressChecks struct {
 
 	// A boolean value indicating if the address is a valid existing address.
 	// Possible values are true, false, and null.
-	IsValid      *bool    `json:"is_valid"`
-	ResidentName string   `json:"resident_name"`
-	Error        error    `json:"error"`
-	Warnings     []string `json:"warnings"`
+	IsValid      *bool  `json:"is_valid"`
+	ResidentName string `json:"resident_name"`
+
+	// Resident’s age in a 5 year range, e.g. 30-34.
+	ResidentAgeRange string `json:"resident_age_range,omitempty"`
+
+	// Resident’s gender, either “Male” or “Female”.
+	ResidentGender string `json:"resident_gender,omitempty"`
+
+	/*
+		Indicates delivery point for the address.
+		Possible values:
+			Commercial mail drop
+			Multi unit
+			Single unit
+			PO Box
+			PO Box Throwback
+			Unknown address type
+	*/
+	Type string `json:"type,omitempty"`
+
+	// Indicates if the address is a business address. Possible values are true, false, or null.
+	IsCommercial *bool `json:"is_commercial,omitempty"`
+
+	Error    error    `json:"error"`
+	Warnings []string `json:"warnings"`
 }
 
-// EmailAddressChecks is a structure that gives info about the validity email address in the query
-// No email address given will return a null response.
+// EmailAddressChecks indicates whether the email is valid or malformed, active or inactive, and verifies if the email registered name matches the input name provided.
+// No data is appended by lead verify append instead of lead verify.
 type EmailAddressChecks struct {
 	/*
 		diagnostics: [
@@ -153,8 +184,21 @@ type NameChecks struct {
 	Error    error    `json:"error"`
 }
 
-// PhoneChecks is a structure that gives verification info about the phone in the query
-// No phone given will return a null response.
+// Address is a generic whitepages address struct
+type Address struct {
+	StreetLine1 string `json:"street_line_1"`
+	StreetLine2 string `json:"street_line_2"`
+	City        string `json:"city"`
+	State       string `json:"state"`
+	PostalCode  string `json:"postal_code"`
+	StateCode   string `json:"state_code"`
+	CountryCode string `json:"country_code"`
+}
+
+// PhoneChecks indicate whether the phone matches the input name provided on the lead, and whether
+// the phone number is valid or not, and is currently in service at time of inquiry.
+// If lead verify + append is used, the response also provides certain phone metadata attributes and
+// subscriber’s demographic attributes that help prioritize the lead and manage TCPA compliance.
 type PhoneChecks struct {
 	// IsConnected indicates whether the phone is connected or not in service.
 	// Possible values are True, False, or null.
@@ -179,6 +223,42 @@ type PhoneChecks struct {
 
 	// A warning message that returns “Missing Input” or null
 	Warnings []string `json:"warnings"`
+
+	// SubscriberAgeRange is the subscriber’s age in a 5 year range, e.g. 30-34.
+	SubscriberAgeRange string `json:"subscriber_age_range,omitempty"`
+
+	// Full address of the subscriber. Includes House Number, Street, City, State, Postal and Country.
+	SubscriberAddress *Address `json:"subscriber_address,omitempty"`
+
+	// Country code for the input phone
+	CountryCode string `json:"country_code,omitempty"`
+
+	/*
+		Line type for the input phone.
+		Possible values:
+			Mobile
+			Landline
+			Fixed VOIP
+			Non-fixed VOIP
+			Premium
+			Tollfree
+			Voicemail
+			Other
+			Unknown
+	*/
+	LineType string `json:"line_type,omitempty"`
+
+	// The company that provides voice and/or data services for this phone number. Carriers are returned at the MVNO level.
+	Carrier string `json:"carrier,omitempty"`
+
+	// Indicates if the phone is associated with a prepaid account. Possible values are true, false, or null.
+	IsPrepaid *bool `json:"is_prepaid,omitempty"`
+
+	// Indicates if the phone is on the National Do Not Call registry. Possible values are true, false, or null.
+	IsDoNotCallRegistered *bool `json:"is_do_not_call_registered"`
+
+	// Indicates if the phone is registered to a business. Possible values are true, false, or null.
+	IsCommercial *bool `json:"is_commercial"`
 }
 
 // GeoLocation is just simple address info like city, state, country and continent code

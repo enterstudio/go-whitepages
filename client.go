@@ -44,10 +44,21 @@ func NewClient(key string) *Client {
 	return c
 }
 
-// Lead verify
-// Request variables:api_key, name, first_name, last_name, phone, email_address, ip_address,address.city, address.state_code,address.county_code
+// LeadVerify
 func (c *Client) LeadVerify(params map[string]string, opts concierge.Options) (l LeadVerifyResponse, cached bool, err error) {
 	response, cached, err := c.request("lead_verify.json", params, opts)
+	if err != nil {
+		return
+	}
+	if err = json.Unmarshal(response, &l); err != nil {
+		return
+	}
+	return
+}
+
+// LeadVerifyAppend
+func (c *Client) LeadVerifyAppend(params map[string]string, opts concierge.Options) (l LeadVerifyResponse, cached bool, err error) {
+	response, cached, err := c.request("lead_verify_append.json", params, opts)
 	if err != nil {
 		return
 	}
@@ -89,7 +100,7 @@ func (c *Client) request(method string, params map[string]string, opts concierge
 	requestURL := c.BaseURL
 	p := url.Values{}
 
-	if method == "lead_verify.json" {
+	if method == "lead_verify.json" || method == "lead_verify_append.json" {
 		// for this endpoint, apikey should be submitted in params. really opts, but that's not supported  yet
 		requestURL = defaultBaseURL + leadVerifyVersion + "/"
 	} else {
