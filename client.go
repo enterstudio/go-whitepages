@@ -10,14 +10,16 @@ import (
 )
 
 const (
-	libraryVersion = "0.1"
-	defaultBaseURL = "https://proapi.whitepages.com/"
-	version        = "2.1"
-	defaultTimeout = 10 * time.Second
+	libraryVersion    = "0.1"
+	defaultBaseURL    = "https://proapi.whitepages.com/"
+	version           = "2.1"
+	leadVerifyVersion = "3.1"
+	defaultTimeout    = 10 * time.Second
 )
 
 // Client is the whitepages client
 type Client struct {
+	LVAPIKey  string
 	APIKey    string
 	Version   string
 	BaseURL   string
@@ -44,9 +46,6 @@ func NewClient(key string) *Client {
 
 // Lead verify
 // Request variables:api_key, name, first_name, last_name, phone, email_address, ip_address,address.city, address.state_code,address.county_code
-// 1. Create method
-// 2. Create structs
-// 3. Tests
 func (c *Client) LeadVerify(params map[string]string, opts concierge.Options) (l LeadVerifyResponse, cached bool, err error) {
 	response, cached, err := c.request("lead_verify.json", params, opts)
 	if err != nil {
@@ -87,13 +86,22 @@ func (c *Client) Address(params map[string]string, opts concierge.Options) (Addr
 // probably no need for this method. Do it all in the above with some common code refactored into functions
 func (c *Client) request(method string, params map[string]string, opts concierge.Options) (res []byte, cached bool, err error) {
 	// Build URL
-	req, _ := url.Parse(c.BaseURL + method)
+	requestURL := c.BaseURL
 	p := url.Values{}
+
+	if method == "lead_verify.json" {
+		// for this endpoint, apikey should be submitted in params. really opts, but that's not supported  yet
+		requestURL = defaultBaseURL + leadVerifyVersion + "/"
+	} else {
+		p.Add("api_key", c.APIKey)
+	}
+
+	req, _ := url.Parse(requestURL + method)
 
 	for k, v := range params {
 		p.Add(k, v)
 	}
-	p.Add("api_key", c.APIKey)
+
 	req.RawQuery = p.Encode()
 
 	// Build request
@@ -110,22 +118,3 @@ func (c *Client) request(method string, params map[string]string, opts concierge
 
 	return
 }
-
-// 	if err != nil {
-// 		return []byte{}, err
-// 	} else {
-// 		defer response.Body.Close()
-// 		contents, err := ioutil.ReadAll(response.Body)
-// 		if err != nil {
-// 			return []byte{}, err
-// 		}
-// 		e := ErrorResponse{}
-// 		if err = json.Unmarshal(contents, &e); err != nil {
-// 			return nil, err
-// 		}
-// 		if len(e.Error.Message) > 0 {
-// 			return nil, errors.New(e.Error.Message)
-// 		}
-// 		return contents, err
-// 	}
-// }

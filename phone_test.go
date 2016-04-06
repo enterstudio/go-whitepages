@@ -12,9 +12,11 @@ import (
 )
 
 var client *Client
+var key, lvKey string
 
 func init() {
-	key := os.Getenv("WP_API_KEY")
+	key = os.Getenv("WP_API_KEY")
+	lvKey = os.Getenv("WP_LV_API_KEY")
 	client = NewClient(key)
 }
 
