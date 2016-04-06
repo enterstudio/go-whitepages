@@ -9,7 +9,7 @@ package whitepages
 
 // Request Fields
 type Request struct {
-	APIKey string `json:"api_key"`
+	APIKey string `json:"-"`
 	*RequestAddress
 
 	// Name is the complete name of a person or business
