@@ -6,14 +6,18 @@ import (
 	"os"
 	"testing"
 	"time"
-    "github.com/the-control-group/go-concierge"
+
 	. "github.com/smartystreets/goconvey/convey"
+	"github.com/the-control-group/go-concierge"
 )
 
 var client *Client
+var key, lvKey, lvaKey string
 
 func init() {
-	key := os.Getenv("WP_API_KEY")
+	key = os.Getenv("WP_API_KEY")
+	lvKey = os.Getenv("WP_LV_API_KEY")
+	lvaKey = os.Getenv("WP_LVA_API_KEY")
 	client = NewClient(key)
 }
 
@@ -25,9 +29,8 @@ func TestKey(t *testing.T) {
 }
 
 func TestMarshalSampleResponse(t *testing.T) {
-
 	Convey("Given a sample response", t, func() {
-		file, err := ioutil.ReadFile("./sample_phone_response.json")
+		file, err := ioutil.ReadFile("./fixtures/sample_phone_response.json")
 		if err != nil {
 			t.Errorf("%s", err)
 		}
@@ -46,8 +49,8 @@ func TestPhone(t *testing.T) {
 		params := make(map[string]string)
 		params["phone_number"] = "2069735100"
 		params["response_type"] = "lite"
-        options := concierge.Options{Timeout: timeout}
-        
+		options := concierge.Options{Timeout: timeout}
+
 		_, _, err := client.Phone(params, options)
 		So(err, ShouldBeNil)
 
@@ -60,9 +63,9 @@ func TestLandlinePhone(t *testing.T) {
 		timeout := time.Duration(20 * time.Second)
 		params := make(map[string]string)
 		params["phone_number"] = "5169389674"
-        options := concierge.Options{Timeout: timeout}
-		
-        resp, _, err := client.Phone(params, options)
+		options := concierge.Options{Timeout: timeout}
+
+		resp, _, err := client.Phone(params, options)
 		So(err, ShouldBeNil)
 		So(resp.Results, ShouldNotBeEmpty)
 	})
