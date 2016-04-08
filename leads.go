@@ -182,9 +182,10 @@ type Address struct {
 	StreetLine1 string `json:"street_line_1"`
 	StreetLine2 string `json:"street_line_2"`
 	City        string `json:"city"`
-	State       string `json:"state"`
 	PostalCode  string `json:"postal_code"`
+	State       string `json:"state"`
 	StateCode   string `json:"state_code"`
+	Country     string `json:"country"`
 	CountryCode string `json:"country_code"`
 }
 
@@ -222,6 +223,9 @@ type PhoneChecks struct {
 
 	// Full address of the subscriber. Includes House Number, Street, City, State, Postal and Country.
 	SubscriberAddress *Address `json:"subscriber_address,omitempty"`
+
+	// SubscriberGender is the subscribers gender
+	SubscriberGender string `json:"subscriber_gender"`
 
 	// Country code for the input phone
 	CountryCode string `json:"country_code,omitempty"`
