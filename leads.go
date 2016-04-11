@@ -167,10 +167,10 @@ type IPAddressChecks struct {
 // No name given will return a null response.
 type NameChecks struct {
 	// CelebrityName indicates if the input name matches any known celebrity names. Possible values are True and False.
-	CelebrityName *bool `json:"celebrity_name"`
+	CelebrityName bool `json:"celebrity_name"`
 
 	// FakeName indicates if the input name seems to be fake. Possible values are True and False.
-	FakeName *bool `json:"fake_name"`
+	FakeName bool `json:"fake_name"`
 
 	// A warning message that returns “Missing Input” or null
 	Warnings []string `json:"warnings"`
@@ -224,8 +224,8 @@ type PhoneChecks struct {
 	// Full address of the subscriber. Includes House Number, Street, City, State, Postal and Country.
 	SubscriberAddress *Address `json:"subscriber_address,omitempty"`
 
-	// SubscriberGender is the subscribers gender
-	SubscriberGender string `json:"subscriber_gender"`
+	// Subscriber gender
+	SubscriberGender string `json:"subscriber_gender,omitempty"`
 
 	// Country code for the input phone
 	CountryCode string `json:"country_code,omitempty"`
