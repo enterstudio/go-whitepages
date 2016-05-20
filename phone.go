@@ -14,6 +14,13 @@ type ID struct {
 }
 
 type Result struct {
+	ID struct {
+		Key        string `json:"key"`
+		Url        string `json:"url"`
+		Type       string `json:"type"`
+		UUID       string `json:"uuid"`
+		Durability string `json:"durability"`
+	} `json:"id"`
 	LineType            string               `json:"line_type"`
 	BelongsTos          []BelongsTo          `json:"belongs_to"`
 	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
@@ -25,6 +32,7 @@ type Result struct {
 	Carrier             string               `json:"carrier"`
 	DoNotCall           bool                 `json:"do_not_call"`
 	IsPrepaid           bool                 `json:"is_prepaid"`
+	Reputation          Reputation           `json:"reputation"`
 }
 
 type BelongsTo struct {
@@ -147,10 +155,12 @@ type Phone struct {
 }
 
 type Reputation struct {
-	SpamScore int `json:"spam_score"`
-	SpamIndex int `json:"spam_index"`
-	Level     int `json:"level"`
-	Details   []struct {
+	SpamScore   int `json:"spam_score"` //This has been depreciated
+	SpamIndex   int `json:"spam_index"` //This has been depreciated
+	Level       int `json:"level"`
+	VolumeScore int `json:"volume_score"`
+	ReportCount int `json:"report_count"`
+	Details     []struct {
 		Score    int    `json:"score"`
 		Type     string `json:"type"`
 		Category string `json:"category"`
