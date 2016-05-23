@@ -42,6 +42,8 @@ func TestMarshalSampleLeadVerifyAppendResponse(t *testing.T) {
 }
 
 func TestLeadVerify(t *testing.T) {
+	// Skip this test because we no longer use LeadVerify from Whitepages.
+	t.Skip()
 	Convey("Test lead verify", t, func() {
 		timeout := time.Duration(20 * time.Second)
 		params := make(map[string]string)
