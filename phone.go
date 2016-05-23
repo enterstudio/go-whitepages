@@ -155,8 +155,8 @@ type Phone struct {
 }
 
 type Reputation struct {
-	SpamScore   int `json:"spam_score"` //This has been depreciated
-	SpamIndex   int `json:"spam_index"` //This has been depreciated
+	SpamScore   int `json:"spam_score"` // This has been depricated
+	SpamIndex   int `json:"spam_index"` // This has been depricated
 	Level       int `json:"level"`
 	VolumeScore int `json:"volume_score"`
 	ReportCount int `json:"report_count"`
