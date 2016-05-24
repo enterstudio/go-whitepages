@@ -23,6 +23,7 @@ type Result struct {
 	} `json:"id"`
 	LineType            string               `json:"line_type"`
 	BelongsTos          []BelongsTo          `json:"belongs_to"`
+	BestLocation        BestLocation         `json:"best_location"`
 	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
 	IsConnected         bool                 `json:"is_connected"`
 	IsValid             bool                 `json:"is_valid"`
