@@ -22,7 +22,7 @@ type Result struct {
 		Durability string `json:"durability"`
 	} `json:"id"`
 	LineType            string               `json:"line_type"`
-	BelongsTos          []BelongsTo          `json:"belongs_to"`
+	BelongsTos          []Person             `json:"belongs_to"`
 	BestLocation        BestLocation         `json:"best_location"`
 	AssociatedLocations []AssociatedLocation `json:"associated_locations"`
 	IsConnected         bool                 `json:"is_connected"`
@@ -36,7 +36,7 @@ type Result struct {
 	Reputation          Reputation           `json:"reputation"`
 }
 
-type BelongsTo struct {
+type Person struct {
 	ID struct {
 		Key        string `json:"key"`
 		Url        string `json:"url"`
@@ -82,7 +82,7 @@ type Location struct {
 	Type                    string   `json:"type"`
 	ValidFor                ValidFor `json:"valid_for"`
 	LatLong                 LatLong  `json:"lat_long"`
-	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	LegalEntitiesAt         []Person `json:"legal_entities_at"`
 	City                    string   `json:"city"`
 	PostalCode              string   `json:"postal_code"`
 	Zip4                    string   `json:"zip4"`
@@ -138,8 +138,8 @@ type Phone struct {
 		Durability string `json:"durability"`
 	} `json:"id"`
 	LineType            string       `json:"line_type"`
-	BelongsTo           string       `json:"belongs_to"`
-	AssociatedLocations string       `json:"associated_locations"`
+	BelongsTo           []Person     `json:"belongs_to"`
+	AssociatedLocations []Location   `json:"associated_locations"`
 	IsValid             bool         `json:"is_valid"`
 	PhoneNumber         string       `json:"phone_number"`
 	CountryCallingCode  string       `json:"country_calling_code"`
@@ -178,7 +178,7 @@ type BestLocation struct {
 	} `json:"id"`
 	Type                    string   `json:"type"`
 	ValidFor                ValidFor `json:"valid_for"`
-	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	LegalEntitiesAt         []Person `json:"legal_entities_at"`
 	City                    string   `json:"city"`
 	PostalCode              string   `json:"postal_code"`
 	Zip4                    string   `json:"zip4"`
@@ -216,7 +216,7 @@ type AssociatedLocation struct {
 	} `json:"id"`
 	Type                    string   `json:"type"`
 	ValidFor                ValidFor `json:"valid_for"`
-	LegalEntitiesAt         string   `json:"legal_entities_at"`
+	LegalEntitiesAt         []Person `json:"legal_entities_at"`
 	City                    string   `json:"city"`
 	PostalCode              string   `json:"postal_code"`
 	Zip4                    string   `json:"zip4"`
