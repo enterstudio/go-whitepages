@@ -2,12 +2,11 @@ package whitepages
 
 import (
 	"encoding/json"
+	. "github.com/smartystreets/goconvey/convey"
+	"github.com/the-control-group/go-concierge"
 	"io/ioutil"
 	"testing"
 	"time"
-
-	. "github.com/smartystreets/goconvey/convey"
-	"github.com/the-control-group/go-concierge"
 )
 
 func TestMarshalSampleLeadVerifyResponse(t *testing.T) {
@@ -44,6 +43,9 @@ func TestMarshalSampleLeadVerifyAppendResponse(t *testing.T) {
 func TestLeadVerify(t *testing.T) {
 	// Skip this test because we no longer use LeadVerify from Whitepages.
 	t.Skip()
+	if lvKey == "" {
+		t.Error("WP_LVA_API_KEY Not set - can be found at http://consul.service.consul:8500/ui/#/iad/kv/data-service/api-v4/config")
+	}
 	Convey("Test lead verify", t, func() {
 		timeout := time.Duration(20 * time.Second)
 		params := make(map[string]string)
@@ -63,6 +65,9 @@ func TestLeadVerify(t *testing.T) {
 }
 
 func TestLeadVerifyAppend(t *testing.T) {
+	if lvaKey == "" {
+		t.Error("WP_LVA_API_KEY Not set - can be found at http://consul.service.consul:8500/ui/#/iad/kv/data-service/api-v4/config")
+	}
 	Convey("Test lead verify", t, func() {
 		timeout := time.Duration(20 * time.Second)
 		params := make(map[string]string)
